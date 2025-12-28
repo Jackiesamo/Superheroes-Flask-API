@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+env/
+pipenv/
+
+# Environment variables
+.env
+.env.*
+
+# Flask
+instance/
+*.log
+
+# Database
+*.sqlite3
+*.db
+
+# Migrations cache
+migrations/versions/__pycache__/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node (if accidentally created)
+node_modules/
