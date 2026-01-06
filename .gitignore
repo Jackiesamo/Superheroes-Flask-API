@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# Flask / SQLite
+instance/
+*.db
+
+# Migrations cache
+migrations/versions/__pycache__/
+
+# OS files
+.DS_Store
