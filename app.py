@@ -6,6 +6,7 @@ from flask import jsonify
 from models import Hero
 from models import Power
 from flask import request
+from models import HeroPower 
 
 
 app = Flask(__name__)
@@ -123,6 +124,57 @@ def update_power(power_id):
     }
 
     return jsonify(power_data), 200
+
+@app.route('/hero_powers', methods=['POST'])
+def create_hero_power():
+    data = request.get_json()
+
+    hero_id = data.get("hero_id")
+    power_id = data.get("power_id")
+    strength = data.get("strength", "").strip()
+
+    errors = []
+
+    # Check hero exists
+    hero = Hero.query.get(hero_id)
+    if not hero:
+        errors.append("Hero does not exist")
+
+    # Check power exists
+    power = Power.query.get(power_id)
+    if not power:
+        errors.append("Power does not exist")
+
+    # Check strength
+    if strength not in ["Strong", "Weak", "Average"]:
+        errors.append("Strength must be 'Strong', 'Weak', or 'Average'")
+
+    if errors:
+        return jsonify({"errors": errors}), 400
+
+    # Create HeroPower
+    hero_power = HeroPower(hero_id=hero_id, power_id=power_id, strength=strength)
+    db.session.add(hero_power)
+    db.session.commit()
+
+    response_data = {
+        "id": hero_power.id,
+        "hero_id": hero_power.hero_id,
+        "power_id": hero_power.power_id,
+        "strength": hero_power.strength,
+        "hero": {
+            "id": hero.id,
+            "name": hero.name,
+            "super_name": hero.super_name
+        },
+        "power": {
+            "id": power.id,
+            "name": power.name,
+            "description": power.description
+        }
+    }
+
+    return jsonify(response_data), 201
 
 
 
